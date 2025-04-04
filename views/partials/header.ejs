@@ -3,17 +3,12 @@
 <header>
     <div class="container">
         <nav class="navbar">
-            <div class="logo">Tasty<span>Tales</span></div>
+            <div class="logo" onclick="window.location.href = '/'">Tasty<span>Tales</span></div>
             <button class="menu-toggle" id="menuToggle">≡</button>
-            <div class="nav-links" id="navLinks">
-                <a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a>
-                <a href="/others/categories" class="<%= path === '/categories' ? 'active' : '' %>">Categories</a>
-                <a href="/others/about" class="<%= path === '/about' ? 'active' : '' %>">About</a>
-                <a href="/others/contact" class="<%= path === '/contact' ? 'active' : '' %>">Contact</a>
-            </div>
             <% if (user) { %>
                 <div class="user-panel">
-                    <a href="/users/recipes/create" class="create-recipe-btn" style="text-decoration: none;">+ New Recipe</a>
+                    <a href="/users/recipes/create" class="create-recipe-btn" style="text-decoration: none;">+ New
+                        Recipe</a>
                     <div class="user-dropdown">
                         <div class="user-dropdown-content">
                             <a href="/users/profile">My Profile</a>

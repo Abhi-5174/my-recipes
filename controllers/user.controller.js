@@ -15,7 +15,7 @@ const getFavourites = async (req, res) => {
         "/?error=" + encodeURIComponent("Unable to fetch favourites data!")
       );
     }
-    const data = response.json();
+    const data = await response.json();
 
     const filtered = data.results.filter((recipe) => {
       if (req.user.favourites.includes(recipe.id)) {

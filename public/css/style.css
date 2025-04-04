@@ -54,6 +54,7 @@ header {
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--primary);
+    cursor: pointer;
 }
 
 .logo span {
