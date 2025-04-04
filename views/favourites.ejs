@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your favourite recipes</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <!-- Header with Navigation -->
+    <%- include('partials/header') %>
+
+        <section class="favorites-header">
+            <div class="container">
+                <h1 style="margin-top: 30px;">My Favourite Recipes</h1>
+                <p>All your bookmarked recipes in one place</p>
+            </div>
+        </section>
+
+        <section class="recipes-section">
+            <div class="container">
+                <% if (favourites && favourites.length> 0) { %>
+                    <div class="recipes-grid" id="favoritesGrid">
+                        <% favourites.forEach(function(recipe) { %>
+                            <%- include('./partials/recipe-card', { recipe: recipe, isLoggedIn: true, user: user }) %>
+                                <% }); %>
+                    </div>
+                    <% } else { %>
+                        <div class="no-favorites">
+                            <div class="empty-state">
+                                <div class="empty-icon">♥</div>
+                                <h3>No favourites yet</h3>
+                                <p>Start adding recipes to your favourites list by clicking the heart icon on any
+                                    recipe.</p>
+                                <a href="/" class="btn-primary">Browse Recipes</a>
+                            </div>
+                        </div>
+                        <% } %>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+
+            <%- include('./errorPopup') %>
+
+                <%- include('partials/recipesListing') %>
+
+</body>
+
+</html>

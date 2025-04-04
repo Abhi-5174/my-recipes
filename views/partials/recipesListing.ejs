@@ -1,0 +1,37 @@
+<script>
+  var userFavorites = JSON.parse(`<%- JSON.stringify(user?.favourites) %>`) || [];
+
+  function favourite(recipeId) {
+    const button = document.querySelector(`button[data-recipe-id="${recipeId}"]`);
+    const isFavorite = userFavorites.includes(recipeId);
+
+    if (isFavorite) {
+      userFavorites = userFavorites.filter((id) => id !== recipeId);
+      button.classList.remove("active");
+      button.title = "Add to favorites";
+      updateFavoritesOnServer(recipeId, "remove");
+    } else {
+      userFavorites.push(recipeId);
+      button.classList.add("active");
+      button.title = "Remove from favorites";
+      updateFavoritesOnServer(recipeId, "add");
+    }
+  }
+
+  function updateFavoritesOnServer(recipeId, action) {
+    fetch("/users/update-favorites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ recipeId, action }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Favorites updated:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating favorites:", error);
+      });
+  }
+</script>

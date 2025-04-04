@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/css/style.css">
+
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">Tasty<span>Tales</span></div>
+            <button class="menu-toggle" id="menuToggle">≡</button>
+            <div class="nav-links" id="navLinks">
+                <a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a>
+                <a href="/others/categories" class="<%= path === '/categories' ? 'active' : '' %>">Categories</a>
+                <a href="/others/about" class="<%= path === '/about' ? 'active' : '' %>">About</a>
+                <a href="/others/contact" class="<%= path === '/contact' ? 'active' : '' %>">Contact</a>
+            </div>
+            <% if (user) { %>
+                <div class="user-panel">
+                    <a href="/users/recipes/create" class="create-recipe-btn" style="text-decoration: none;">+ New Recipe</a>
+                    <div class="user-dropdown">
+                        <div class="user-dropdown-content">
+                            <a href="/users/profile">My Profile</a>
+                            <a href="/users/favourites">My Favourites</a>
+                            <a href="/users/my-recipes">My Recipes</a>
+                            <a href="/auth/logout">Logout</a>
+                        </div>
+                    </div>
+                    <div class="user-avatar" onclick="showPopupProfile()">
+                        <img style="width: 100%; height: 100%;" src="<%= user.profile_image || '/images/profile.png' %>"
+                            alt="<%= user.name %>">
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="btn-login" id="loginBtn">Login</button>
+                        <button class="btn-signup" id="signupBtn">Sign Up</button>
+                    </div>
+                    <% } %>
+        </nav>
+    </div>
+</header>
+
+<script>
+    const userDropdownContent = document.querySelector(".user-dropdown-content");
+    function showPopupProfile() {
+        userDropdownContent.style.display = userDropdownContent.style.display === "block" ? "none" : "block"
+    }
+</script>

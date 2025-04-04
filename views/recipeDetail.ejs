@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Detail</title>
+</head>
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #fafafa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .recipe-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+
+    .recipe-header {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .recipe-header img {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 10px;
+    }
+
+    .recipe-details h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .recipe-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .recipe-section {
+        margin-top: 2rem;
+    }
+
+    .recipe-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .ingredients-list,
+    .dish-types,
+    .wine-pairings {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        list-style: none;
+        padding: 0;
+    }
+
+    .ingredients-list li,
+    .dish-types li,
+    .wine-pairings li {
+        background: #f2f2f2;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+    }
+
+    .instructions {
+        line-height: 1.6;
+        color: #333;
+        white-space: pre-line;
+    }
+</style>
+
+<body class="bg-light">
+
+    <!-- Header with Navigation -->
+    <%- include('partials/header') %>
+
+        <h1>Recipe Detail</h1>
+        <div class="recipe-container">
+            <div class="recipe-header">
+                <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                <div class="recipe-details">
+                    <h1>
+                        <%= recipe.title %>
+                    </h1>
+                    <div class="recipe-meta">
+                        <span><strong>Ready in:</strong>
+                            <%= recipe.readyInMinutes %> mins
+                        </span>
+                        <span><strong>Servings:</strong>
+                            <%= recipe.servings %>
+                        </span>
+                        <span><strong>Health Score:</strong>
+                            <%= recipe.healthScore %>
+                        </span>
+                        <% if (recipe.pricePerServing) { %>
+                            <span><strong>Price/Serving:</strong> $<%= (recipe.pricePerServing / 100).toFixed(2) %>
+                                    </span>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-section">
+                <h2>Summary</h2>
+                <p class="instructions"><%- recipe.summary %></p>
+            </div>
+
+            <div class="recipe-section">
+                <h2>Ingredients</h2>
+                <ul class="ingredients-list">
+                    <% recipe.extendedIngredients.forEach(ing=> { %>
+                        <li>
+                            <%= ing.original %>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+
+            <div class="recipe-section">
+                <h2>Instructions</h2>
+                <p class="instructions">
+                    <%= recipe.instructions || 'No instructions provided.' %>
+                </p>
+            </div>
+
+            <% if (recipe.dishTypes && recipe.dishTypes.length> 0) { %>
+                <div class="recipe-section">
+                    <h2>Dish Types</h2>
+                    <ul class="dish-types">
+                        <% recipe.dishTypes.forEach(type=> { %>
+                            <li>
+                                <%= type %>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+                <% } %>
+
+                    <% if (recipe.winePairing && recipe.winePairing.pairedWines.length> 0) { %>
+                        <div class="recipe-section">
+                            <h2>Wine Pairings</h2>
+                            <p class="instructions">
+                                <%= recipe.winePairing.pairingText %>
+                            </p>
+                            <ul class="wine-pairings">
+                                <% recipe.winePairing.pairedWines.forEach(wine=> { %>
+                                    <li>
+                                        <%= wine %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                        <% } %>
+
+        </div>
+
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+
+            <%- include('./errorPopup') %>
+
+</body>
+
+</html>

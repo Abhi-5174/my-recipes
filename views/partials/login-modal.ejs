@@ -1,0 +1,119 @@
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeLoginModal">×</button>
+        <h2 class="form-title">Log In</h2>
+        <form id="loginForm" action="/auth/login" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="submit-btn">Log In</button>
+            <div class="switch-form">
+                <span>Don't have an account? </span>
+                <a onclick="switchToSignup()" id="switchToSignup">Sign Up</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal" id="signupModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeSignupModal">×</button>
+        <h2 class="form-title">Sign Up</h2>
+        <form id="signupForm" action="/auth/signup" method="post">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="signupName" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password"
+                    required>
+            </div>
+            <button type="submit" class="submit-btn">Create Account</button>
+            <div class="switch-form">
+                <span>Already have an account? </span>
+                <a onclick="switchToLogin()" id="switchToLogin">Log In</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    // DOM Elements
+    const recipesGrid = document.getElementById('recipesGrid');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const closeLoginModal = document.getElementById('closeLoginModal');
+    const closeSignupModal = document.getElementById('closeSignupModal');
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const authButtons = document.getElementById('authButtons');
+    const userPanel = document.getElementById('userPanel');
+
+    // Toggle menu for mobile
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Open login modal
+    loginBtn.addEventListener('click', () => {
+        loginModal.style.display = 'flex';
+    });
+
+    // Close login modal
+    closeLoginModal.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+    });
+
+    // Open Signup modal
+    signupBtn.addEventListener('click', () => {
+        signupModal.style.display = 'flex';
+    });
+
+    // Close Signup modal
+    closeSignupModal.addEventListener('click', () => {
+        signupModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === loginModal) {
+            loginModal.style.display = 'none';
+        }
+        else if (e.target === signupModal) {
+            signupModal.style.display = 'none';
+        }
+    });
+
+    function switchToLogin() {
+        loginModal.style.display = "flex";
+        signupModal.style.display = "none";
+    }
+
+    function switchToSignup() {
+        signupModal.style.display = "flex";
+        loginModal.style.display = "none";
+    }
+</script>

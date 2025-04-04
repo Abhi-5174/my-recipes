@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasty Tales - Recipe App</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <%- include('partials/header') %>
+
+        <!-- Hero Section with Search -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Discover Delicious Recipes</h1>
+                <p>Find and share the best recipes from around the world</p>
+                <%- include('partials/search-bar') %>
+            </div>
+        </section>
+
+        <!-- Recipe Listing Section -->
+        <section class="recipes-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Popular Recipes</h2>
+                    <div class="filter-sort-container">
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="healthy">Healthy</option>
+                        </select>
+
+                        <select class="sort-select" id="sortOption">
+                            <option value="">Most Popular</option>
+                            <option value="newest">Newest</option>
+                            <option value="price">price</option>
+                            <option value="time">Quickest</option>
+                            <option value="protein">Health Score</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="recipes-grid" id="recipesGrid">
+                    <!-- Recipe Cards will be dynamically added here -->
+                    <% if(reciepes && reciepes.length> 0) { %>
+                        <% reciepes.forEach(recipe=> { %>
+                            <%- include('partials/recipe-card', { recipe: recipe, isLoggedIn: user ? true : false, user:
+                                user }) %>
+                                <% }) %>
+                                    <% } else { %>
+                                        <h1>No reciepes available</h1>
+                                        <% } %>
+                </div>
+
+                <div class="load-more-container">
+                    <button class="load-more-btn" id="loadMoreBtn">Load More</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login & Signup -->
+        <%- include('partials/login-modal') %>
+
+            <!-- Footer -->
+            <%- include('partials/footer') %>
+
+                <%- include('./errorPopup') %>
+
+                    <%- include('partials/recipesListing') %>
+
+</body>
+
+</html>
+
+<script>
+    const searchInput = document.getElementById("searchInput"); // Search field
+    const searchBtn = document.querySelector(".search-btn"); // Search button
+    const categoryFilter = document.getElementById("categoryFilter"); // Category dropdown
+    const sortOption = document.getElementById("sortOption"); // Sort dropdown
+    const originalContent = document.getElementById("recipesGrid").innerHTML; // Store original recipes for reset
+
+    const user = JSON.parse(document.getElementById("userData").dataset.user);
+
+    async function fetchRecipes(query, category, sortBy) {
+        try {
+            const response = await fetch(`/users/search-recipes?query=${query}&category=${category}&sortBy=${sortBy}`);
+            const data = await response.json();
+
+            updateRecipeGrid(data.results);
+        } catch (error) {
+            console.error("Error fetching filtered recipes:", error);
+        }
+    }
+
+    function updateRecipeGrid(recipes) {
+        document.getElementById("recipesGrid").innerHTML = recipes.length > 0
+            ? recipes.map(recipe => `
+            <div class="recipe-card" data-id="${recipe.id}">
+                <div class="recipe-image"
+                    style="background-image: url('${recipe.image}'); display: flex; align-items: flex-start; justify-content: flex-end;">
+                    
+                    ${user
+                    ? `<button class="favorite-btn ${user.favourites.includes(recipe.id) ? 'active' : ''}"
+                                data-recipe-id="${recipe.id}"
+                                title="${user.favourites.includes(recipe.id) ? 'Remove from favorites' : 'Add to favorites'}"
+                                onclick="favourite('${recipe.id}')">
+                            <span class="heart-icon" style="filter: drop-shadow(10px 7px 10px black)">♥</span>
+                           </button>`
+                    : `<button class="favorite-btn"
+                                data-recipe-id="${recipe.id}"
+                                title="Add to favorites"
+                                onclick="window.location.href = '/?error=Please log in to favorite recipes.'">
+                            <span class="heart-icon" style="filter: drop-shadow(10px 7px 10px black)">♥</span>
+                           </button>`
+                }
+                </div>
+
+                <div class="recipe-content">
+                    <h3 class="recipe-title">${recipe.title}</h3>
+                    <div class="recipe-actions">
+                        <a href="${user ? `/recipes/${recipe.id}` : '/?error=Please log in to show details of the recipe.'}" 
+                            class="view-recipe">View Recipe →</a>
+
+                        ${user && user._id === recipe.authorId
+                    ? `<div class="recipe-buttons">
+                                <a href="/recipes/edit/${recipe.id}" class="edit-btn">Edit</a>
+                                <button class="delete-btn" data-recipe-id="${recipe.id}">Delete</button>
+                               </div>`
+                    : ''
+                }
+                    </div>
+                </div>
+            </div>
+        `).join("")
+            : "<h2>No recipes found</h2>";
+    }
+
+
+    function applyFilters() {
+        const query = searchInput.value.trim();
+        const category = categoryFilter.value;
+        const sortBy = sortOption.value;
+
+        fetchRecipes(query, category, sortBy);
+    }
+
+    // Search button click event
+    searchBtn.addEventListener("click", applyFilters);
+
+    // Filter and Sort event listeners
+    categoryFilter.addEventListener("change", applyFilters);
+    sortOption.addEventListener("change", applyFilters);
+
+    // Restore recipes when search input is cleared
+    searchInput.addEventListener("input", function () {
+        if (searchInput.value.trim() === "") {
+            applyFilters(); // Show recipes based on category & sort even if search is empty
+        }
+    });
+</script>
+
+<script src="/js/scroll-handler.js"></script>

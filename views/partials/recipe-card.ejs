@@ -1,0 +1,33 @@
+<!-- /views/partials/recipe-card.ejs -->
+    <div class="recipe-card" data-id="<%= recipe.id %>">
+        <div class="recipe-image"
+            style="background-image: url('<%= recipe.image %>'); display: flex; align-items: flex-start; justify-content: flex-end;">
+            <% if (user) { %>
+                <button class="favorite-btn <%= user.favourites.includes(recipe.id) ? 'active' : '' %>"
+                        data-recipe-id="<%= recipe.id %>"
+                        title="<%= user.favourites.includes(recipe.id) ? 'Remove from favorites' : 'Add to favorites' %>"
+                        onclick="favourite('<%= recipe.id %>')">
+            <% } else { %>
+                <button class="favorite-btn"
+                        data-recipe-id="<%= recipe.id %>"
+                        title="Add to favorites"
+                        onclick="window.location.href = '/?error=Please log in to favorite recipes.'">
+            <% } %>
+                    <span class="heart-icon" style="filter: drop-shadow(10px 7px 10px black)">♥</span>
+                </button>
+        </div>
+        <div class="recipe-content">
+            <h3 class="recipe-title">
+                <%= recipe.title %>
+            </h3>
+            <div class="recipe-actions">
+                <a href="<%= user ? '/users/recipes/' + recipe.id : '/?error=Please log in to show details of the recipe.' %>" class="view-recipe">View Recipe →</a>
+                <% if (user && recipe.authorId===user._id) { %>
+                    <div class="recipe-buttons">
+                        <a href="/recipes/edit/<%= recipe.id %>" class="edit-btn">Edit</a>
+                        <button class="delete-btn" data-recipe-id="<%= recipe.id %>">Delete</button>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </div>

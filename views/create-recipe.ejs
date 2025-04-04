@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create you own recipes</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+
+    <!-- Header with Navigation -->
+    <%- include('partials/header') %>
+
+        <div class="container mt-5">
+            <h2>Add a New Recipe</h2>
+            <form id="recipeForm" action="/users/recipes/add" method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image URL</label>
+                    <input type="url" class="form-control" id="image" name="image" required>
+                </div>
+                <div class="form-group">
+                    <label for="servings">Servings</label>
+                    <input type="number" class="form-control" id="servings" name="servings" required>
+                </div>
+                <div class="form-group">
+                    <label for="readyInMinutes">Ready In (Minutes)</label>
+                    <input type="number" class="form-control" id="readyInMinutes" name="readyInMinutes" required>
+                </div>
+                <div class="form-group">
+                    <label for="cookingMinutes">Cooking Minutes</label>
+                    <input type="number" class="form-control" id="cookingMinutes" name="cookingMinutes" required>
+                </div>
+                <div class="form-group">
+                    <label for="preparationMinutes">Preparation Minutes</label>
+                    <input type="number" class="form-control" id="preparationMinutes" name="preparationMinutes"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="instructions">Instructions</label>
+                    <textarea class="form-control" id="instructions" name="instructions" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="healthScore">Health Score</label>
+                    <input type="number" class="form-control" id="healthScore" name="healthScore" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="spoonacularScore">Spoonacular Score</label>
+                    <input type="number" class="form-control" id="spoonacularScore" name="spoonacularScore" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="pricePerServing">Price Per Serving</label>
+                    <input type="number" class="form-control" id="pricePerServing" name="pricePerServing" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="cuisines">Cuisines (comma-separated)</label>
+                    <input type="text" class="form-control" id="cuisines" name="cuisines">
+                </div>
+                <div class="form-group">
+                    <label for="diets">Diets (comma-separated)</label>
+                    <input type="text" class="form-control" id="diets" name="diets">
+                </div>
+                <div class="form-group">
+                    <label for="dishTypes">Dish Types (comma-separated)</label>
+                    <input type="text" class="form-control" id="dishTypes" name="dishTypes">
+                </div>
+                <div class="form-group">
+                    <label for="extendedIngredients">Extended Ingredients (JSON format)</label>
+                    <textarea class="form-control" id="extendedIngredients" name="extendedIngredients"
+                        rows="4"></textarea>
+                    <small class="form-text text-muted">Please provide ingredients in JSON format.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Recipe</button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+
+            <%- include('./errorPopup') %>
+
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your recipes</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <!-- Header with Navigation -->
+    <%- include('partials/header') %>
+
+        <section class="favorites-header">
+            <div class="container">
+                <h1 style="margin-top: 30px;">My Recipes</h1>
+                <p>All your created recipes in one place</p>
+            </div>
+        </section>
+
+        <section class="recipes-section">
+            <div class="container">
+                <div class="recipes-grid" id="recipesGrid">
+                    <!-- Recipe Cards will be dynamically added here -->
+                    <% if(recipes && recipes.length> 0) { %>
+                        <% recipes.forEach(recipe=> { %>
+                            <%- include('partials/recipe-card', { recipe: recipe, isLoggedIn: user ? true : false, user:
+                                user }) %>
+                                <% }) %>
+                                    <% } else { %>
+                                        <h1>No recipes available</h1>
+                                        <% } %>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+            <%- include('./errorPopup') %>
+                <%- include('partials/recipesListing') %>
+
+</body>
+
+</html>
