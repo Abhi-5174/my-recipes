@@ -3,6 +3,7 @@ import express from "express";
 import authRouter from "./auth.routes.js";
 import userRouter from "./user.routers.js";
 import otherRouter from "./other.routes.js";
+import apiRouter from "./api.routes.js";
 import isLoggedIn from "../middlewares/isLoggedIn.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 
@@ -33,5 +34,7 @@ router.use("/auth", authRouter);
 router.use("/users", isLoggedIn, isAuthenticated, userRouter);
 
 router.use("/others", otherRouter);
+
+router.use("/api", apiRouter);
 
 export default router;
