@@ -1,5 +1,7 @@
 import express from "express";
 
+import { searchRecipe } from "../controllers/other.controller.js";
+
 const otherRouter = express.Router();
 
 otherRouter.get("/categories", (req, res) => {
@@ -25,5 +27,7 @@ otherRouter.get("/contact", (req, res) => {
     favourites: [],
   });
 });
+
+otherRouter.get("/search-recipes", searchRecipe);
 
 export default otherRouter;

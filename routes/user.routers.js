@@ -7,7 +7,6 @@ import {
   favourite,
   getAddRecipePage,
   postAddRecipe,
-  searchRecipe,
   getRecipeDetailPage,
 } from "../controllers/user.controller.js";
 
@@ -24,8 +23,6 @@ userRouter.post("/update-favorites", favourite);
 userRouter.get("/recipes/create", getAddRecipePage);
 
 userRouter.post("/recipes/add", postAddRecipe);
-
-userRouter.get("/search-recipes", searchRecipe);
 
 userRouter.get("/recipes/:recipeId", getRecipeDetailPage);
 

@@ -168,46 +168,6 @@ const postAddRecipe = async (req, res) => {
   }
 };
 
-const searchRecipe = async (req, res) => {
-  try {
-    let { query, category, sortBy } = req.query;
-    let url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=9`;
-
-    // Add search query if exists
-    if (query) url += `&query=${encodeURIComponent(query)}`;
-
-    // Add category filter if not 'all'
-    if (category && category !== "all")
-      url += `&type=${encodeURIComponent(category)}`;
-
-    // Add sorting option
-    const sortOptions = {
-      newest: "date",
-      quickest: "readyInMinutes",
-      healthscore: "healthScore",
-    };
-
-    if (sortBy && sortOptions[sortBy]) {
-      url += `&sort=${sortOptions[sortBy]}`;
-    }
-
-    console.log("Fetching:", url); // Debugging
-
-    // Fetch data from Spoonacular API
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (!data.results || data.results.length === 0) {
-      return res.json({ results: [], message: "No recipes found" });
-    }
-
-    res.json({ results: data.results });
-  } catch (error) {
-    console.error("Error fetching recipes:", error);
-    res.status(500).json({ error: "Failed to fetch recipes" });
-  }
-};
-
 const getRecipeDetailPage = async (req, res) => {
   const { recipeId } = req.params;
   if (!recipeId) {
@@ -251,6 +211,5 @@ export {
   favourite,
   getAddRecipePage,
   postAddRecipe,
-  searchRecipe,
   getRecipeDetailPage,
 };

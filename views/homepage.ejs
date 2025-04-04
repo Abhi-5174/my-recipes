@@ -29,20 +29,20 @@
                     <h2>Popular Recipes</h2>
                     <div class="filter-sort-container">
                         <select class="filter-select" id="categoryFilter">
-                            <option value="all">All Categories</option>
+                            <option value="">All Categories</option>
                             <option value="breakfast">Breakfast</option>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
+                            <option value="side dish">Lunch</option>
+                            <option value="main course">Dinner</option>
                             <option value="dessert">Dessert</option>
-                            <option value="healthy">Healthy</option>
+                            <option value="salad">Healthy</option>
                         </select>
 
                         <select class="sort-select" id="sortOption">
-                            <option value="">Most Popular</option>
-                            <option value="newest">Newest</option>
+                            <option value="">Sort By</option>
+                            <option value="popularity">Most Popular</option>
                             <option value="price">price</option>
                             <option value="time">Quickest</option>
-                            <option value="protein">Health Score</option>
+                            <option value="protein">Protein</option>
                         </select>
                     </div>
                 </div>
@@ -90,7 +90,12 @@
 
     async function fetchRecipes(query, category, sortBy) {
         try {
-            const response = await fetch(`/users/search-recipes?query=${query}&category=${category}&sortBy=${sortBy}`);
+            const response = await fetch(`/others/search-recipes?query=${query}&category=${category}&sortBy=${sortBy}`);
+
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${response.status}: ${response.error}`);
+            }
+
             const data = await response.json();
 
             updateRecipeGrid(data.results);
